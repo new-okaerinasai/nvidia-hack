@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/home/sorain/miniconda3/envs/sorains_env/bin/python",
+    "python.formatting.provider": "black"
+}
