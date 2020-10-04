@@ -1,20 +1,19 @@
 {% extends "layout.html" %}
 
-{% block content%}
-	{% for post in stream%}
+{% block content %}
+	{% for project in stream%}
 		<article>
 			<div class="profilepic-lenta-layout">
-				<img src="{{ post.user.photo }}", class="profilepic-lenta-image">
+				<img src="{{ project.from_user.photo }}", class="profilepic-lenta-image">
 			</div>
 			<div class="postlayout">
 			<h2>
-				<a href="{{ url_for('stream', username=post.user.username) }}">{{post.user.username}}</a>
+				<a href="{{ url_for('view_project', project_id=project.project_id) }}">{{project.name}}</a>
 			</h2>
-				<i class="clock"></i><time date-time="{{ post.timestamp }}" class="disTime" datetime="{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}">{{post.timestamp.strftime('%Y-%m-%d %H:%M:%S')}}</time><a href="{{ url_for('view_post', post_id = post.id) }}" class="view"> View</a>
 				<div class="post">
-					{{ post.content }}
+					{{ project.description }}
 				</div>
 			</div>
 		</article>
 	{% endfor%}
-{% endblock %}
+{% endblock %}	

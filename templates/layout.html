@@ -59,21 +59,24 @@
             {% endif %}
         {% endwith %}
 
+        <div class="navibar">
+          <div class="navibar-container">
+            
+          </div>
+
+          <div class="navibar-list">
+            <ul style="list-style-type: none;">
+              <li style="list-style-type: none; padding: 10px;"><a href="{{ url_for('get_people') }}">Projects</a></li>
+              <li style="list-style-type: none; padding: 10px;"><a href="{{ url_for('get_people') }}">People</a></li>
+              <li style="list-style-type: none; padding: 10px;"><a href="{{ url_for('get_people') }}">Events</a></li>
+            </ul>
+          </div>
+        </div>
+
         <div class="row">
 
           <div class="main">
-
-            <nav>
-
-              <a href="{{ url_for('index') }}">All</a>
-                {% if current_user.is_authenticated %}
-                <a href="{{ url_for('stream', username=current_user.username) }}">Following</a>
-                <a href="{{ url_for('post') }}" class="new">Create New Post</a>
-                {% endif %}
-            </nav>
-
             {% block content %}{% endblock %}
-
           </div>
 
         </div>
@@ -82,7 +85,7 @@
 
           <div class="row">
 
-            <p>A Social App built with Flask<br>by <a href="http://teamtreehouse.com">Treehouse</a></p>
+            <p>Team 1729, 2020<br>Frontend and backend development led by Ruslan Khaidurov with crucial contributions of the team </p>
 
           </div>
 

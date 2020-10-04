@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content%}
+    {% for project in stream %}
+	<div class="project-layout">
+        <nav>
+            <a href="{{ url_for('view_project', project_id=project.project_id) }}">Overview</a>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('view_idea', project_id=project.project_id) }}">Ideas</a>
+            <a href="{{ url_for('post') }}" class="new">Create New Project</a>
+            {% endif %}
+        </nav>
+        {% block maincontent %} {% endblock %}
+    </div>
+    {% endfor %}
+{% endblock %}

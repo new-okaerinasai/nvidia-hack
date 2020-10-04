@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, flash, redirect, url_for, abort
+from flask import Flask, g, render_template, flash, redirect, url_for, abort, request
 from flask_bcrypt import check_password_hash
 from flask_login import (
     LoginManager,
@@ -7,7 +7,9 @@ from flask_login import (
     login_required,
     current_user,
 )
+import numpy as np
 
+import uuid
 import forms
 import models
 
@@ -97,16 +99,15 @@ def logout():
 def post():
     form = forms.PostForm()
     if form.validate_on_submit():
-        models.Post.create(user=g.user.id, content=form.content.data.strip())
+        models.Project.create_project(
+            from_user=g.user.id,
+            description=form.content.data.strip(),
+            project_id=np.random.randint(0, 100000),
+            name=form.name.data.strip()
+        )
         flash("Message Posted: Thanks!", "success")
         return redirect(url_for("index"))
     return render_template("post.html", form=form)
-
-
-@app.route("/")
-def index():
-    stream = models.Post.select().limit(100)
-    return render_template("stream.html", stream=stream)
 
 
 @app.route("/stream")
@@ -174,20 +175,68 @@ def unfollow(username):
     return redirect(url_for("stream", username=to_user.username))
 
 
+@app.route("/ideas")
+def view_idea():
+    data = request.args
+    idea_id = data.get('idea_id', None)
+    project_id = data.get('project_id', None)
+    ideas = None
+    if idea_id is not None:
+        ideas = models.Idea.select().where(models.Idea.id == idea_id)
+    if project_id is not None:
+        if ideas is not None:
+            ideas = ideas.where(models.Idea.for_project == project_id)
+        else:
+            ideas = models.Idea.select().where(models.Idea.for_project == project_id)
+    if ideas.count() == 0:
+        abort(404)
+    return render_template("ideas.html", stream=ideas)
+
+
+@app.route("/project/<int:project_id>")
+def view_project(project_id):
+    posts = models.Project.select().where(models.Project.project_id == project_id)
+    if posts.count() == 0:
+        abort(404)
+    return render_template("project.html", stream=posts)
+
+@app.route("/qa")
+def view_qa():
+    data = request.args
+    project_id = data.get("project_id", None)
+    posts = models.Project.select().where(models.Project.project_id == project_id)
+    return render_template("qa.html", stream=posts)
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template("404.html"), 404
 
 
+@app.route("/")
+def index():
+    stream = models.Project.select().limit(100)
+    return render_template("stream.html", stream=stream)
+
+
+@app.route("/people")
+def get_people():
+    return render_template("people.html")
+
+
 if __name__ == "__main__":
     models.initialize()
-    try:
-        models.User.create_user(
-            username="Sprain",
-            email="nbsharma@outlook.com",
-            password="password",
-            admin=True,
-        )
-    except ValueError:
-        pass
+    models.Project.create_project(
+        1,
+        "This is my first project description",
+        "2",
+        "First project ever"
+    )
+
+    models.Project.create_project(
+        2,
+        "This is my second project description",
+        "2",
+        "Second project ever"
+    )
+    models.Idea.create_idea(1, 's', 'This is my first idea', 1, 'Idea #1')
     app.run(debug=DEBUG, host=HOST, port=PORT)

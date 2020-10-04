@@ -61,4 +61,5 @@ class LoginForm(Form):
 
 
 class PostForm(Form):
-    content = TextAreaField("What's Up?", validators=[DataRequired()])
+    name = TextAreaField("Project name")
+    content = TextAreaField("Project description", validators=[DataRequired()])

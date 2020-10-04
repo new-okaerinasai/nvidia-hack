@@ -2,6 +2,12 @@
 body, input, button, textarea {
   font-family: 'Varela Round', Helvetica Neue, Helvetica, Arial, serif;
 }
+
+@font-face {
+    font-family: Geforce;
+    src: url('/static/GeForce-Light-Alt.ttf');
+}
+
 body {
   font-size: 1em;
   color: #777B7E;
@@ -59,6 +65,7 @@ header {
 .profilepic-lenta-layout {
   width: 52px;
   height: 52px;
+  float: left;
 }
 
 .profilepic-lenta-image {
@@ -66,8 +73,30 @@ header {
   height: 50px;
 }
 
+.project-overview {
+    padding: 20px;
+}
+
+.one-guy-layout {
+    height: 10%;
+    max-height: 250px;
+    max-width: 200px;
+    float: left;
+    background: #fff;
+}
+
+.one-guy-pic {
+    background: #fff;
+}
+
+.one-guy-name {
+    padding: 20px;
+    float: center;
+    background: #fff;
+}
+
 .postlayout{
-  column-span: all;
+  
 }
 
 .icon-logo {
@@ -100,15 +129,17 @@ header {
 
 /*Main*/
 .main {
-  max-width: 1200px;
+  max-width: 70%;
   margin: 40px auto 0;
   background: #fff;
   border-radius: 4px;
   transition: .35s linear;
   padding-bottom: 20px;
+
 }
+
 .skinny {
-  max-width: 320px;
+  max-width: 10%;
   padding: 40px;
 }
 nav{
@@ -273,10 +304,11 @@ footer p {
 
 /*Grid*/
 .row {
-  max-width: 1200px;
-  padding: 0 40px;
+  max-width: 80%;
+  padding: 0;
   margin: 0 auto;
   transition: .35s linear;
+  float: center;
 }
 .row:before, .row:after {
   content: '';
@@ -321,8 +353,23 @@ footer p {
   }
   .row {
     padding: 0 10px;
+  }
 }
 
 .post {
     white-space: pre;
+}
+
+.navibar {
+    width: 20%;
+    float: left;
+    padding: 10px;
+}
+
+.navibar-list {
+    font-family: Geforce;
+    background: #ffffff;
+    font-size: 22pt;
+    padding: 5px;
+    float: center;
 }
